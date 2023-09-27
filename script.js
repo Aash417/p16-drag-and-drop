@@ -108,6 +108,12 @@ function updateDOM() {
 
 	// Run getSavedColumns only once, Update Local Storage
 }
+// allow array to update on ls
+function rebuildArrays() {
+	for (let i = 0; i < backlogList.children.length; i++) {
+		backlogListArray.puch(backlogList.children[i].textContent);
+	}
+}
 
 // When item start drag
 function drag(e) {
@@ -137,6 +143,7 @@ function drop(e) {
 	// add item to column
 	const parent = listColumns[currentColumn];
 	parent.appendChild(draggedItem);
+	rebuildArrays();
 }
 
 // on load
