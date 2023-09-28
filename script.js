@@ -22,6 +22,7 @@ let listArrays = [];
 // Drag Functionality
 let draggedItem;
 let currentColumn;
+let dragging = false;
 
 // Get Arrays from localStorage if available, set default values if not
 function getSavedColumns() {
@@ -127,13 +128,15 @@ function updateDOM() {
 function updateItem(id, column) {
 	// first select the currentColumn
 	const selectedArray = listArrays[column];
-	console.log(selectedArray);
 	// then select the current element in the col
 	const selectedColEl = listColumns[column].children;
-	console.log(selectedColEl[id].textContent);
+	// console.log(selectedColEl[id].textContent);
+
+	if (dragging) return;
 
 	if (!selectedColEl[id].textContent) delete selectedArray[id];
-	console.log(selectedArray);
+	else selectedArray[id] = selectedColEl[id].textContent;
+
 	updateDOM();
 }
 
@@ -184,6 +187,7 @@ function rebuildArrays() {
 // When item start drag
 function drag(e) {
 	draggedItem = e.target;
+	dragging = true;
 	// console.log(draggedItem);
 }
 
@@ -209,6 +213,8 @@ function drop(e) {
 	// add item to column
 	const parent = listColumns[currentColumn];
 	parent.appendChild(draggedItem);
+	// draging complete
+	dragging = false;
 	rebuildArrays();
 }
 
